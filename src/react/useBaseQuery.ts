@@ -26,7 +26,7 @@ export function useBaseQuery<
   const mountedRef = React.useRef(false)
   const [, forceUpdate] = React.useState(0)
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient({ context: options.context })
   const errorResetBoundary = useQueryErrorResetBoundary()
   const defaultedOptions = queryClient.defaultQueryObserverOptions(options)
 

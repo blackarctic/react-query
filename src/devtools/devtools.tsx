@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { useQueryClient } from 'react-query'
+import { useQueryClient, QueryClient } from 'react-query'
 import { matchSorter } from 'match-sorter'
 import useLocalStorage from './useLocalStorage'
 import { useSafeState } from './utils'
@@ -60,6 +60,10 @@ interface DevtoolsOptions {
    * Defaults to 'footer'.
    */
   containerElement?: string | any
+  /**
+   * Use this to pass your React Query context. Otherwise, the default will be used.
+   */
+  context?: React.Context<QueryClient | undefined>
 }
 
 interface DevtoolsPanelOptions {
@@ -71,6 +75,10 @@ interface DevtoolsPanelOptions {
    * The standard React className property used to style a component with classes
    */
   className?: string
+  /**
+   * Use this to pass your React Query context. Otherwise, the default will be used.
+   */
+  context?: React.Context<QueryClient | undefined>
 }
 
 const isServer = typeof window === 'undefined'
@@ -82,6 +90,7 @@ export function ReactQueryDevtools({
   toggleButtonProps = {},
   position = 'bottom-left',
   containerElement: Container = 'footer',
+  context,
 }: DevtoolsOptions): React.ReactElement {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
@@ -201,6 +210,7 @@ export function ReactQueryDevtools({
       <ThemeProvider theme={theme}>
         <ReactQueryDevtoolsPanel
           ref={panelRef}
+          context={context}
           {...otherPanelProps}
           style={{
             position: 'fixed',
@@ -342,9 +352,9 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
     props: DevtoolsPanelOptions,
     ref
   ): React.ReactElement {
-    const { isOpen, setIsOpen, handleDragStart, ...panelProps } = props
+    const { isOpen, setIsOpen, handleDragStart, context, ...panelProps } = props
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient({ context })
     const queryCache = queryClient.getQueryCache()
 
     const [sort, setSort] = useLocalStorage(

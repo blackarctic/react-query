@@ -22,6 +22,7 @@ export interface HydrateOptions {
     queries?: QueryOptions
     mutations?: MutationOptions
   }
+  context?: React.Context<QueryClient | undefined>
 }
 
 interface DehydratedMutation {

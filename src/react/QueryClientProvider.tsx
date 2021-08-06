@@ -11,13 +11,20 @@ declare global {
 const defaultContext = React.createContext<QueryClient | undefined>(undefined)
 const QueryClientSharingContext = React.createContext<boolean>(false)
 
-// if contextSharing is on, we share the first and at least one
+// If we are given a context, we will use it.
+// Otherwise, if contextSharing is on, we share the first and at least one
 // instance of the context across the window
 // to ensure that if React Query is used across
 // different bundles or microfrontends they will
 // all use the same **instance** of context, regardless
 // of module scoping.
-function getQueryClientContext(contextSharing: boolean) {
+function getQueryClientContext(
+  context: React.Context<QueryClient | undefined> | undefined,
+  contextSharing: boolean
+) {
+  if (context) {
+    return context
+  }
   if (contextSharing && typeof window !== 'undefined') {
     if (!window.ReactQueryClientContext) {
       window.ReactQueryClientContext = defaultContext
@@ -29,9 +36,13 @@ function getQueryClientContext(contextSharing: boolean) {
   return defaultContext
 }
 
-export const useQueryClient = () => {
+export const useQueryClient = ({
+  context,
+}: {
+  context?: React.Context<QueryClient | undefined>
+} = {}) => {
   const queryClient = React.useContext(
-    getQueryClientContext(React.useContext(QueryClientSharingContext))
+    getQueryClientContext(context, React.useContext(QueryClientSharingContext))
   )
 
   if (!queryClient) {
@@ -44,12 +55,14 @@ export const useQueryClient = () => {
 export interface QueryClientProviderProps {
   client: QueryClient
   contextSharing?: boolean
+  context?: React.Context<QueryClient | undefined>
 }
 
 export const QueryClientProvider: React.FC<QueryClientProviderProps> = ({
   client,
   contextSharing = false,
   children,
+  context,
 }) => {
   React.useEffect(() => {
     client.mount()
@@ -58,7 +71,7 @@ export const QueryClientProvider: React.FC<QueryClientProviderProps> = ({
     }
   }, [client])
 
-  const Context = getQueryClientContext(contextSharing)
+  const Context = getQueryClientContext(context, contextSharing)
 
   return (
     <QueryClientSharingContext.Provider value={contextSharing}>

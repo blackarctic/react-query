@@ -10,6 +10,7 @@ import {
   QueryKey,
   MutationFunction,
 } from '../core/types'
+import type { QueryClient } from '../core/queryClient'
 
 export interface UseBaseQueryOptions<
   TQueryFnData = unknown,
@@ -23,7 +24,9 @@ export interface UseBaseQueryOptions<
     TData,
     TQueryData,
     TQueryKey
-  > {}
+  > {
+  context?: React.Context<QueryClient | undefined>
+}
 
 export interface UseQueryOptions<
   TQueryFnData = unknown,
@@ -50,7 +53,9 @@ export interface UseInfiniteQueryOptions<
     TData,
     TQueryData,
     TQueryKey
-  > {}
+  > {
+  context?: React.Context<QueryClient | undefined>
+}
 
 export type UseBaseQueryResult<
   TData = unknown,
@@ -97,6 +102,7 @@ export interface UseMutationOptions<
   retry?: RetryValue<TError>
   retryDelay?: RetryDelayValue<TError>
   useErrorBoundary?: boolean
+  context?: React.Context<QueryClient | undefined>
 }
 
 export type UseMutateFunction<

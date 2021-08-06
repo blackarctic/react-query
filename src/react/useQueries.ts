@@ -9,7 +9,18 @@ export function useQueries(queries: UseQueryOptions[]): UseQueryResult[] {
   const mountedRef = React.useRef(false)
   const [, forceUpdate] = React.useState(0)
 
-  const queryClient = useQueryClient()
+  // Ensure that all queries have the same context
+  queries.forEach((curr, i) => {
+    const next = queries[i + 1]
+    if (next && curr.context !== next.context) {
+      throw new Error(
+        'useQueries requires all queries to have the same context'
+      )
+    }
+  })
+
+  const context = queries[0]?.context
+  const queryClient = useQueryClient({ context })
 
   const defaultedQueries = queries.map(options => {
     const defaultedOptions = queryClient.defaultQueryObserverOptions(options)
