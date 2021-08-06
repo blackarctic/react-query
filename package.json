@@ -1,11 +1,11 @@
 {
-  "name": "react-query",
-  "version": "1.0.0-semantic-release",
+  "name": "@blackarctic/react-query",
+  "version": "0.0.1",
   "description": "Hooks for managing, caching and syncing asynchronous and remote data in React",
-  "author": "tannerlinsley",
+  "author": "blackarctic",
   "license": "MIT",
-  "repository": "tannerlinsley/react-query",
-  "homepage": "https://github.com/tannerlinsley/react-query#readme",
+  "repository": "blackarctic/react-query",
+  "homepage": "https://github.com/blackarctic/react-query#readme",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/tannerlinsley"
