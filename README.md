@@ -1,3 +1,5 @@
+Forked from https://github.com/tannerlinsley/react-query while awaiting approval for https://github.com/tannerlinsley/react-query/pull/2548.
+
 <img src="https://static.scarf.sh/a.png?x-pxid=be2d8a11-9712-4c1d-9963-580b2d4fb133" />
 
 ![React Query Header](https://github.com/tannerlinsley/react-query/raw/master/media/repo-dark.png)
@@ -29,6 +31,7 @@ Enjoy this library? Try the entire [TanStack](https://tanstack.com)! [React Tabl
 ## Visit [react-query.tanstack.com](https://react-query.tanstack.com) for docs, guides, API and more!
 
 Still on **React Query v2**? No problem! Check out the v2 docs here: https://react-query-v2.tanstack.com/.
+
 ## Quick Features
 
 - Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
